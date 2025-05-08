@@ -1,0 +1,37 @@
+name: cashnity
+description: "Cashnity is your personal finance ally—an intuitive budget calculator that brings clarity, control, and confidence to your money management. Whether you're planning monthly expenses, tracking spending, or setting savings goals, Cashnity keeps you on track in real-time."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.6.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  gap: ^3.0.1
+  google_fonts: ^6.1.0
+  flutter_screenutil: ^5.9.0
+  get_cli: ^1.9.1
+  get: ^4.7.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  build_runner: ^2.4.8
+  json_serializable: ^6.7.1
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/logo/
+
+  # optional fonts section
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 700
