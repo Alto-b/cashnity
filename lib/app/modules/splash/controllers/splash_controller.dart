@@ -1,11 +1,10 @@
+import 'package:cashnity/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
 class SplashController extends GetxController {
-  //TODO: Implement SplashController
-
-  final count = 0.obs;
   @override
   void onInit() {
+    _proceedToHome();
     super.onInit();
   }
 
@@ -19,5 +18,9 @@ class SplashController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
+  Future<void> _proceedToHome() async {
+    await Future.delayed(Duration(seconds: 3));
+    // await Get.offAllNamed(Routes.HOME);
+    await Get.offAllNamed(Routes.LOGIN);
+  }
 }
