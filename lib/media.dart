@@ -1,3 +1,7 @@
 class Media {
-  static String wallet_banner = 'assets/logo/cashnity_banner.png';
+  //banner
+  static String wallet_bannerPng = 'assets/logo/cashnity_banner.png';
+
+  //lottie
+  static String swipeUpJson = 'assets/lottie/swipe_up.json';
 }

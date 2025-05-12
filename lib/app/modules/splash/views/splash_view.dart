@@ -22,7 +22,7 @@ class SplashView extends GetView<SplashController> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(Media.wallet_banner),
+            Image.asset(Media.wallet_bannerPng),
             CupertinoActivityIndicator(
               color: AppColors.loaderColor,
               radius: 12,
