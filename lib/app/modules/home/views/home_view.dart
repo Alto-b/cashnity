@@ -26,6 +26,7 @@ class HomeView extends GetView<HomeController> {
         body: SingleChildScrollView(
           child: Container(
             width: Get.width,
+            height: Get.height,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,

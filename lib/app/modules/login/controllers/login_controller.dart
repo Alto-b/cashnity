@@ -1,7 +1,9 @@
+import 'package:cashnity/app/services/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoginController extends GetxController {
+  final themeController = Get.find<ThemeController>();
   //variables for UI switch between
   RxBool isLoginView = true.obs;
 
