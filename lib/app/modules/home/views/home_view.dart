@@ -1,5 +1,6 @@
 import 'package:cashnity/app/modules/home/views/widgets/drawer.dart';
 import 'package:cashnity/app/modules/home/views/widgets/glass_container.dart';
+import 'package:cashnity/app/routes/app_pages.dart';
 import 'package:cashnity/app/services/theme_controller.dart';
 import 'package:cashnity/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +76,11 @@ class HomeView extends GetView<HomeController> {
                       ),
                     ),
                     Gap(20),
-                    _totalBalanceCard(textColor),
+                    GestureDetector(
+                        onTap: () {
+                          Get.toNamed(Routes.TEST);
+                        },
+                        child: _totalBalanceCard(textColor)),
                     const Gap(20),
                     _editBalanceRow(textColor, isDarkMode),
                     const Gap(20),

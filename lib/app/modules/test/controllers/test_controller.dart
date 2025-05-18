@@ -1,23 +1,6 @@
 import 'package:get/get.dart';
 
 class TestController extends GetxController {
-  //TODO: Implement TestController
-
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
+  var isSticky = false.obs; // Observable to track if it's sticky
+  var isVisible = true.obs; // Observable to track if the card is visible
 }

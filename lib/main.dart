@@ -1,4 +1,7 @@
 import 'package:cashnity/app/routes/app_pages.dart';
+import 'package:cashnity/bindings/injections.dart';
+import 'package:cashnity/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -7,6 +10,9 @@ import 'app/services/theme_controller.dart';
 
 void main() async {
   await GetStorage.init();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MyApp());
 }
 
@@ -53,6 +59,7 @@ class MyApp extends StatelessWidget {
       themeMode: themeController.themeMode,
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
+      initialBinding: Injections(),
     );
   }
 }

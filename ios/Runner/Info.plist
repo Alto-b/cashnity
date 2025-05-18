@@ -46,7 +46,8 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>NSLocalNetworkUsageDescription</key>
-	<string>This app requires local network access for debugging.</string>
+	<string>Allow local network access for debugging and development purposes.</string>
+
 
 </dict>
 </plist>

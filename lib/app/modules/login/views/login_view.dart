@@ -107,7 +107,10 @@ GlassContainer _loginView(BuildContext context) {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  // controller.login(); // Call your login logic here
+                  if (controller.validateLoginForm()) {
+                    controller.login(controller.emailController.text.trim(),
+                        controller.passwordController.text.trim());
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.deepPurpleAccent,
@@ -268,9 +271,12 @@ GlassContainer _signUpView(BuildContext context) {
               child: ElevatedButton(
                 onPressed: () {
                   if (controller.validateSignUpForm()) {
-                    // controller.signUp(); // Trigger signup logic
-                  } else {
-                    Get.snackbar("Oops!", "Please fill all fields correctly");
+                    controller.signUp(
+                        name: controller.nameController.text.trim(),
+                        email: controller.emailController.text.trim(),
+                        password: controller.passwordController.text.trim(),
+                        employmentStatus:
+                            controller.occupationController.text.trim());
                   }
                 },
                 style: ElevatedButton.styleFrom(

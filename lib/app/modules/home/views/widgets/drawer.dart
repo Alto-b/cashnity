@@ -1,8 +1,9 @@
 import 'dart:ui';
+import 'package:cashnity/app/modules/home/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomeDrawer extends StatelessWidget {
+class HomeDrawer extends GetView<HomeController> {
   const HomeDrawer({super.key});
 
   @override
@@ -78,7 +79,9 @@ class HomeDrawer extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 24.0),
                 child: DrawerTile(
-                  onTap: () {},
+                  onTap: () {
+                    controller.showLogoutDialog();
+                  },
                   icon: Icons.logout,
                   label: 'Logout',
                   color: Colors.redAccent,

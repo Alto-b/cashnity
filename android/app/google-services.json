@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "143788809111",
+    "project_id": "cashnity-d5a47",
+    "storage_bucket": "cashnity-d5a47.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:143788809111:android:ffa502c549dba509e2c2d2",
+        "android_client_info": {
+          "package_name": "com.codefascia.cashnity"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBDUUkoKkIkkeDAK2FWORnQt4R5jpzce0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
