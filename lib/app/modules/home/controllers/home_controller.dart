@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:cashnity/app/core/services/storage_services.dart';
 import 'package:cashnity/app/domain/entities/expense_entity.dart';
+import 'package:cashnity/app/domain/entities/user_entity.dart';
 import 'package:cashnity/app/domain/use_cases/add_expense_use_case.dart';
 import 'package:cashnity/app/domain/use_cases/get_expense_use_case.dart';
+import 'package:cashnity/app/modules/login/controllers/login_controller.dart';
 import 'package:cashnity/app/routes/app_pages.dart';
 import 'package:cashnity/app/services/theme_controller.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +16,16 @@ class HomeController extends GetxController {
     required this.addExpenseUseCase,
     required this.getExpensesUseCase,
   });
+  UserEntity? user;
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    final loginController = Get.find<LoginController>();
+    user = loginController.currentUser.value;
+    fetchExpenses(user?.id ?? '0');
+  }
 
   final AddExpenseUseCase addExpenseUseCase;
   final GetExpensesUseCase getExpensesUseCase;
@@ -125,5 +139,7 @@ class HomeController extends GetxController {
 
   void handleLogout() {
     storageService.setLoginStatus(false);
+    Get.find<LoginController>().currentUser.value = null;
+    expenses.clear();
   }
 }

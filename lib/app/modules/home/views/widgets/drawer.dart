@@ -40,7 +40,7 @@ class HomeDrawer extends GetView<HomeController> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Hello, User!',
+                          'Hello, ${controller.user?.name}!',
                           style: TextStyle(
                             color: textColor,
                             fontSize: 20,
@@ -48,7 +48,7 @@ class HomeDrawer extends GetView<HomeController> {
                           ),
                         ),
                         Text(
-                          'user@email.com',
+                          controller.user?.email ?? '',
                           style: TextStyle(
                             color: subTextColor,
                             fontSize: 14,

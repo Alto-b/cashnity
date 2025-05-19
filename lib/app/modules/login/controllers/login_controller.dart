@@ -35,7 +35,6 @@ class LoginController extends GetxController {
   final confirmPasswordController = TextEditingController();
   @override
   void onInit() {
-    bool isLoggedIn = storageService.isUserLoggedIn();
     super.onInit();
   }
 
@@ -129,7 +128,8 @@ class LoginController extends GetxController {
     if (result == "Success") {
       // navigate or show success
       Get.rawSnackbar(message: "Success");
-      handleLoginSuccess();
+      loadUserProfile(newUser.id);
+      handleLoginSuccess(newUser.id);
       Get.offAllNamed(Routes.HOME);
     } else {
       Get.snackbar("Error", result);
@@ -146,14 +146,16 @@ class LoginController extends GetxController {
       (user) {
         currentUser.value = user;
         errorMessage.value = '';
-        handleLoginSuccess();
+        loadUserProfile(user.id);
+        handleLoginSuccess(user.id);
         Get.offAllNamed(Routes.HOME);
       },
     );
   }
 
-  void handleLoginSuccess() {
+  void handleLoginSuccess(String userId) {
     storageService.setLoginStatus(true);
+    storageService.setLoggedInUserId(userId);
   }
 
   Future<void> loadUserProfile(String userId) async {
@@ -168,13 +170,13 @@ class LoginController extends GetxController {
     }
   }
 
-  @override
-  void onClose() {
-    nameController.dispose();
-    occupationController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
-    confirmPasswordController.dispose();
-    super.onClose();
-  }
+  // @override
+  // void onClose() {
+  //   nameController.dispose();
+  //   occupationController.dispose();
+  //   emailController.dispose();
+  //   passwordController.dispose();
+  //   confirmPasswordController.dispose();
+  //   super.onClose();
+  // }
 }

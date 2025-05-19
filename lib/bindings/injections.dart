@@ -12,6 +12,7 @@ import 'package:cashnity/app/domain/use_cases/get_expense_use_case.dart';
 import 'package:cashnity/app/domain/use_cases/get_profile_use_case.dart';
 import 'package:cashnity/app/domain/use_cases/login_use_case.dart';
 import 'package:cashnity/app/domain/use_cases/sign_up_use_case.dart';
+import 'package:cashnity/app/modules/home/controllers/home_controller.dart';
 import 'package:cashnity/app/modules/login/controllers/login_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
@@ -48,6 +49,10 @@ class Injections extends Bindings {
             signUpUserUseCase: Get.find(),
             getUserProfileUseCase: Get.find(),
             loginUseCase: Get.find()),
+        fenix: true);
+    Get.lazyPut(
+        () => HomeController(
+            addExpenseUseCase: Get.find(), getExpensesUseCase: Get.find()),
         fenix: true);
   }
 }

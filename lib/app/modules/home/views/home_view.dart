@@ -1,6 +1,12 @@
+import 'dart:ffi';
+
+import 'package:cashnity/app/core/extensions/datetime_extensions.dart';
+import 'package:cashnity/app/core/extensions/string_extensions.dart';
+import 'package:cashnity/app/domain/entities/expense_entity.dart';
 import 'package:cashnity/app/modules/home/views/widgets/drawer.dart';
 import 'package:cashnity/app/modules/home/views/widgets/glass_container.dart';
 import 'package:cashnity/app/routes/app_pages.dart';
+
 import 'package:cashnity/app/services/theme_controller.dart';
 import 'package:cashnity/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -42,45 +48,9 @@ class HomeView extends GetView<HomeController> {
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    GlassContainer(
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  _scaffoldKey.currentState?.openDrawer();
-                                },
-                                child: Icon(Icons.menu,
-                                    color: (isDarkMode)
-                                        ? Colors.white
-                                        : Colors.black),
-                              ),
-                              const SizedBox(
-                                  width: 24), // Placeholder for symmetry
-                              _themeModeSwitch(),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Text(
-                                "Cashnity",
-                                style: TextStyle(color: textColor),
-                                // style: Theme.of(context).textTheme.headlineMedium,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                    _headerWidget(_scaffoldKey, isDarkMode, textColor),
                     Gap(20),
-                    GestureDetector(
-                        onTap: () {
-                          Get.toNamed(Routes.TEST);
-                        },
-                        child: _totalBalanceCard(textColor)),
+                    _totalBalanceCard(textColor),
                     const Gap(20),
                     _editBalanceRow(textColor, isDarkMode),
                     const Gap(20),
@@ -96,50 +66,110 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  GlassContainer _transactionHistoryList(BuildContext context) {
+  Widget _headerWidget(
+      GlobalKey<ScaffoldState> _scaffoldKey, bool isDarkMode, Color textColor) {
     return GlassContainer(
-        child: Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Transactions",
-              style: context.textTheme.titleLarge,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  _scaffoldKey.currentState?.openDrawer();
+                },
+                child: Icon(Icons.menu,
+                    color: (isDarkMode) ? Colors.white : Colors.black),
+              ),
+              const SizedBox(width: 24), // Placeholder for symmetry
+              _themeModeSwitch(),
+            ],
+          ),
+          Column(
+            children: [
+              Text(
+                controller.user?.name ?? "Cashnity",
+                style: TextStyle(color: textColor),
+                // style: Theme.of(context).textTheme.headlineMedium,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _transactionHistoryList(BuildContext context) {
+    return Obx(
+      () => controller.expenses.isEmpty
+          ? SizedBox.shrink()
+          : GlassContainer(
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Transactions",
+                        style: context.textTheme.titleLarge,
+                      ),
+                      Icon(Icons.filter_alt_outlined),
+                    ],
+                  ),
+                  Gap(5),
+                  SizedBox(
+                    height: Get.height * 0.4,
+                    child: ListView.builder(
+                      itemCount: controller.expenses.length,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final expense = controller.expenses[index];
+                        final desc = expense.description.trim();
+
+                        return ListTile(
+                          leading: Container(
+                            width: 40,
+                            height: 40,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
+                            ),
+                            child: Text(
+                              desc.leadingEmoji.characters.first,
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ),
+                          title: Text(
+                            desc.descriptionTitle,
+                            style: context.textTheme.bodyLarge,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                          subtitle: Text(
+                            expense.datetime.toFriendlyDateString(),
+                            style: context.textTheme.bodySmall,
+                          ),
+                          trailing: Text(
+                            "₹${expense.amount}",
+                            style: context.textTheme.bodyLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color:
+                                  expense.isIncome ? Colors.green : Colors.red,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Gap(10),
+                ],
+              ),
             ),
-            Icon(Icons.filter_alt_outlined)
-          ],
-        ),
-        Gap(5),
-        ListView.builder(
-          itemCount: 4,
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            return ListTile(
-              leading: Container(
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.all(Radius.circular(4))),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(Icons.wallet_travel),
-                ),
-              ),
-              title: Text(
-                "data",
-                style: context.textTheme.bodyLarge,
-              ),
-              subtitle: Text(
-                "Apr ${index + 1}",
-                style: context.textTheme.bodySmall,
-              ),
-              trailing: Text("\$110"),
-            );
-          },
-        ),
-        Gap(10)
-      ],
-    ));
+    );
   }
 
   Widget _editBalanceRow(Color textColor, bool isDark) {
@@ -346,6 +376,12 @@ class HomeView extends GetView<HomeController> {
                   onSubmit: () {
                     final amount = controller.amountController.text.trim();
                     final type = controller.expenseTypeController.text.trim();
+                    controller.addExpense(ExpenseEntity(
+                        userId: controller.user!.id,
+                        isIncome: isIncome,
+                        amount: double.parse(amount),
+                        description: type,
+                        datetime: DateTime.now()));
 
                     if (amount.isNotEmpty) {
                       Get.back();

@@ -1,3 +1,5 @@
+import 'package:cashnity/app/core/services/storage_services.dart';
+import 'package:cashnity/app/modules/login/controllers/login_controller.dart';
 import 'package:cashnity/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,6 +7,8 @@ import 'package:get_storage/get_storage.dart';
 
 class SplashController extends GetxController {
   final GetStorage storage = GetStorage();
+  final StorageService storageService = StorageService();
+  final loginController = Get.find<LoginController>();
 
   RxBool isUserLoggedin = false.obs;
   @override
@@ -13,14 +17,17 @@ class SplashController extends GetxController {
     super.onInit();
 
     isUserLoggedin.value = storage.read('userLoggedInStatus') ?? false;
+    final userId = storageService.getLoggedInUserId();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (isUserLoggedin.value) {
+    if (isUserLoggedin.value && userId != null) {
+      loginController.loadUserProfile(userId).then((_) {
         _proceedToHome();
-      } else {
+      }).catchError((error) {
         _proceedToLogin();
-      }
-    });
+      });
+    } else {
+      _proceedToLogin();
+    }
   }
 
   @override
